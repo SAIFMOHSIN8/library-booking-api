@@ -40,8 +40,17 @@ public class WaitlistService {
         waitlistEntry.setResource(resource);
         waitlistEntry.setJoinedAt(LocalDateTime.now());
 
+        WaitlistEntry lastEntry =
+                waitlistEntryRepository.findTopByResourceIdOrderByPositionDesc(resourceId);
+
+        int nextPosition = 1;
+
+        if (lastEntry != null) {
+            nextPosition = lastEntry.getPosition() + 1;
+        }
+
         waitlistEntry.setActive(true);
-        waitlistEntry.setPosition(1);
+        waitlistEntry.setPosition(nextPosition);
 
         return waitlistEntryRepository.save(waitlistEntry);
     }
