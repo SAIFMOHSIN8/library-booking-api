@@ -21,4 +21,10 @@ public class BorrowController {
 
         return borrowService.borrowResource(employeeId, resourceId);
     }
+    @PostMapping("/return")
+    public BorrowRecord returnResource(
+            @RequestParam Long borrowRecordId) {
+
+        return borrowService.returnResource(borrowRecordId);
+    }
 }

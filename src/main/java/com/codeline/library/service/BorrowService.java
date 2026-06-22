@@ -52,4 +52,15 @@ public class BorrowService {
 
         return borrowRecordRepository.save(borrowRecord);
     }
+
+    public BorrowRecord returnResource(Long borrowRecordId) {
+
+        BorrowRecord borrowRecord = borrowRecordRepository.findById(borrowRecordId)
+                .orElseThrow(() -> new RuntimeException("Borrow record not found"));
+
+        borrowRecord.setActive(false);
+        borrowRecord.setReturnedAt(LocalDateTime.now());
+
+        return borrowRecordRepository.save(borrowRecord);
+    }
 }
