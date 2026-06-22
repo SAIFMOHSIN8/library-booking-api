@@ -43,6 +43,13 @@ public class BorrowService {
         Resource resource = resourceRepository.findById(resourceId)
                 .orElseThrow(() -> new RuntimeException("Resource not found"));
 
+        long activeBorrows =
+                borrowRecordRepository.countByResourceIdAndActiveTrue(resourceId);
+
+        if (activeBorrows >= resource.getTotalCopies()) {
+            throw new RuntimeException("No copies available");
+        }
+
         BorrowRecord borrowRecord = new BorrowRecord();
 
         borrowRecord.setEmployee(employee);
