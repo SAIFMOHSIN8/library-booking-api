@@ -6,4 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface WaitlistEntryRepository extends JpaRepository<WaitlistEntry, Long> {
 
     WaitlistEntry findTopByResourceIdOrderByPositionDesc(Long resourceId);
+
+    WaitlistEntry findTopByResourceIdAndActiveTrueOrderByPositionAsc(Long resourceId);
 }

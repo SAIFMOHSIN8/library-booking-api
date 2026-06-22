@@ -1,5 +1,8 @@
 package com.codeline.library.service;
 
+import com.codeline.library.enums.ReservationStatus;
+import com.codeline.library.entity.Reservation;
+import com.codeline.library.entity.WaitlistEntry;
 import com.codeline.library.entity.BorrowRecord;
 import com.codeline.library.entity.Employee;
 import com.codeline.library.entity.Resource;
@@ -68,6 +71,33 @@ public class BorrowService {
         borrowRecord.setActive(false);
         borrowRecord.setReturnedAt(LocalDateTime.now());
 
-        return borrowRecordRepository.save(borrowRecord);
+        BorrowRecord savedRecord =
+                borrowRecordRepository.save(borrowRecord);
+
+        WaitlistEntry firstInQueue =
+                waitlistEntryRepository
+                        .findTopByResourceIdAndActiveTrueOrderByPositionAsc(
+                                borrowRecord.getResource().getId()
+                        );
+
+        if (firstInQueue != null) {
+
+            Reservation reservation = new Reservation();
+
+            reservation.setEmployee(firstInQueue.getEmployee());
+            reservation.setResource(firstInQueue.getResource());
+
+            reservation.setStatus(ReservationStatus.PENDING);
+
+            reservation.setReservedAt(LocalDateTime.now());
+
+            reservation.setExpiresAt(
+                    LocalDateTime.now().plusHours(2)
+            );
+
+            reservationRepository.save(reservation);
+        }
+
+        return savedRecord;
     }
 }
