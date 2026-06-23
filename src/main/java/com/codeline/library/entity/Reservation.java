@@ -16,6 +16,7 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "RESERVATION_ID")
     private Long id;
 
     @ManyToOne
