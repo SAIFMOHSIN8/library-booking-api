@@ -29,6 +29,15 @@ public class ReservationService {
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
 
+        if (reservation.getExpiresAt().isBefore(LocalDateTime.now())) {
+
+            reservation.setStatus(ReservationStatus.EXPIRED);
+
+            reservationRepository.save(reservation);
+
+            throw new RuntimeException("Reservation expired");
+        }
+
         reservation.setStatus(ReservationStatus.CLAIMED);
 
         BorrowRecord borrowRecord = new BorrowRecord();
