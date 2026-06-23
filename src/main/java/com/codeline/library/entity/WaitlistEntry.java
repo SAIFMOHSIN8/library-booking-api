@@ -15,7 +15,6 @@ public class WaitlistEntry {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "WAITLIST_ENTRY_ID")
     private Long id;
 
     @ManyToOne

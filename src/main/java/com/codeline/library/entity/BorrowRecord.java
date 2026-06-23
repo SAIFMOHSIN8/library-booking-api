@@ -15,7 +15,6 @@ public class BorrowRecord {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "BORROW_RECORD_ID")
     private Long id;
 
     @ManyToOne

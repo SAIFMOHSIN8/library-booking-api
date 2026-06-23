@@ -14,7 +14,6 @@ public class Resource {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "RESOURCE_ID")
     private Long id;
 
     @Column(nullable = false)
