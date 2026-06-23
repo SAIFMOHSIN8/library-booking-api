@@ -9,11 +9,6 @@ public interface ReservationRepository extends JpaRepository<Reservation, Long> 
     long countByResourceIdAndStatus(
             Long resourceId,
             ReservationStatus status
-    );
 
-    Reservation findByEmployeeIdAndResourceIdAndStatus(
-            Long employeeId,
-            Long resourceId,
-            ReservationStatus status
     );
 }
