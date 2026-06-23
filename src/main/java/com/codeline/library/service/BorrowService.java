@@ -96,6 +96,8 @@ public class BorrowService {
             );
 
             reservationRepository.save(reservation);
+            firstInQueue.setActive(false);
+            waitlistEntryRepository.save(firstInQueue);
         }
 
         return savedRecord;
