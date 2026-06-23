@@ -49,7 +49,13 @@ public class BorrowService {
         long activeBorrows =
                 borrowRecordRepository.countByResourceIdAndActiveTrue(resourceId);
 
-        if (activeBorrows >= resource.getTotalCopies()) {
+        long pendingReservations =
+                reservationRepository.countByResourceIdAndStatus(
+                        resourceId,
+                        ReservationStatus.PENDING
+                );
+
+        if (activeBorrows + pendingReservations >= resource.getTotalCopies()) {
             throw new RuntimeException("No copies available");
         }
 
