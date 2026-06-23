@@ -24,10 +24,16 @@ public class ReservationService {
 
     }
 
-    public Reservation claimReservation(Long reservationId) {
+    public Reservation claimReservation(Long reservationId, Long employeeId) {
 
         Reservation reservation = reservationRepository.findById(reservationId)
                 .orElseThrow(() -> new RuntimeException("Reservation not found"));
+
+        if (!reservation.getEmployee().getId().equals(employeeId)) {
+            throw new RuntimeException(
+                    "You cannot claim another employee's reservation"
+            );
+        }
 
         if (reservation.getExpiresAt().isBefore(LocalDateTime.now())) {
 

@@ -16,8 +16,12 @@ public class ReservationController {
 
     @PostMapping("/claim")
     public Reservation claimReservation(
-            @RequestParam Long reservationId) {
+            @RequestParam Long reservationId,
+            @RequestParam Long employeeId) {
 
-        return reservationService.claimReservation(reservationId);
+        return reservationService.claimReservation(
+                reservationId,
+                employeeId
+        );
     }
 }
