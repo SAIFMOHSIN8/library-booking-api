@@ -8,4 +8,9 @@ public interface WaitlistEntryRepository extends JpaRepository<WaitlistEntry, Lo
     WaitlistEntry findTopByResourceIdOrderByPositionDesc(Long resourceId);
 
     WaitlistEntry findTopByResourceIdAndActiveTrueOrderByPositionAsc(Long resourceId);
+
+    boolean existsByEmployeeIdAndResourceIdAndActiveTrue(
+            Long employeeId,
+            Long resourceId
+    );
 }

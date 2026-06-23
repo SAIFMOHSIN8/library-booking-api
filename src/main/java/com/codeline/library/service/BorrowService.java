@@ -46,6 +46,19 @@ public class BorrowService {
         Resource resource = resourceRepository.findById(resourceId)
                 .orElseThrow(() -> new RuntimeException("Resource not found"));
 
+        boolean alreadyBorrowed =
+                borrowRecordRepository
+                        .existsByEmployeeIdAndResourceIdAndActiveTrue(
+                                employeeId,
+                                resourceId
+                        );
+
+        if (alreadyBorrowed) {
+            throw new RuntimeException(
+                    "Employee already has this resource borrowed"
+            );
+        }
+
         long activeBorrows =
                 borrowRecordRepository.countByResourceIdAndActiveTrue(resourceId);
 

@@ -34,6 +34,19 @@ public class WaitlistService {
         Resource resource = resourceRepository.findById(resourceId)
                 .orElseThrow(() -> new RuntimeException("Resource not found"));
 
+        boolean alreadyWaiting =
+                waitlistEntryRepository
+                        .existsByEmployeeIdAndResourceIdAndActiveTrue(
+                                employeeId,
+                                resourceId
+                        );
+
+        if (alreadyWaiting) {
+            throw new RuntimeException(
+                    "Employee is already in the waitlist for this resource"
+            );
+        }
+
         WaitlistEntry waitlistEntry = new WaitlistEntry();
 
         waitlistEntry.setEmployee(employee);
